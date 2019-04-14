@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://ww.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>无机课堂反馈信息</title>
+
+<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" />
+<link rel="stylesheet" th:href="@{/css/bootstrap-theme.min.css}"/>
+<script type="text/javascript" th:src="@{/js/jquery-1.11.0.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/bootstrap.min.js}"></script>
+
+<script type="text/javascript">
+	$(document).ready(function(){
+		findFeed();
+	});
+	
+	function findFeed(){
+		$.get("/classtime/feedback/getAll",function(res){
+			$.each(res,function(){
+				var tr = $("<tr/>");
+				$("<td/>").html(this.feedId).appendTo(tr);
+				$("<td/>").html(this.openId).appendTo(tr);
+				$("<td/>").html(this.contact).appendTo(tr);
+				$("<td/>").html(this.content).appendTo(tr);
+				$("<td/>").html(this.createTime).appendTo(tr);
+				$("#tables").append(tr);
+			})
+		},"json");
+	}
+</script>
+</head>
+<body>
+	<div class="container">
+        <div class="row">
+            <div class="col-md-12 text-center" style="padding-top: 70px">
+                <span class="h1" style="color: #46b8da;font-weight: bold">无机课堂反馈信息查看</span>
+            </div>
+        </div>
+        <br/>
+        <br/>
+        <br/>
+        
+        <div class="row">
+            <div class="col-md-11 col-xs-11">
+                <table class="table" id="tables">
+                    <thead>
+	                    <tr class="info">
+	                        <th width="50px">序号</th>
+	                        <th >姓名</th>
+	                        <th >联系方式</th>
+	                        <th >反馈内容</th>
+	                        <th width="90px" style="vertical-align: middle !important;text-align: center;">时间</th>
+	                    </tr>
+                    </thead>
+                    <tbody>
+                    	
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
