@@ -2,13 +2,13 @@ package com.daliu.classtime.service.inservice;
 
 import java.util.List;
 
-import com.daliu.classtime.domain.FeedBackDoMain;
+import com.daliu.classtime.domain.ReplyDoMain;
 
-public interface InFeedService {
+public interface InReplyService {
 	
-	public List<FeedBackDoMain> queryAllFeed();
+	public List<ReplyDoMain> queryAllReply();
 	
-	public void saveFeed(FeedBackDoMain feedBackDoMain);
+	public void saveReply(ReplyDoMain replyDoMain);
 	
 	/*根据openId查询
 	public List<FeedBackDoMain> findByOpenId(String openId);*/

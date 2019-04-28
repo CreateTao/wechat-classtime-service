@@ -11,26 +11,84 @@
 
 <script type="text/javascript">
 	$(document).ready(function(){
-		findFeed();
+		
+		
+		var e=$("div");//定义了两jquery对象  
+	    var w=$("div");//e是不等于w的。
+	    
+	    $.data(e,"current",1);		//当前页数
+	    $.data(w,"total",1);		//总页数 
+	    
+	    findReply(e,w);
+	    
+	    $('#previous').on('click',function(){
+	    	if($.data(e,"current") === 1){
+	    		alert("这是第一页");
+	    	}else{
+	    		$.data(e,"current",$.data(e,"current")-1);
+	    		console.log($.data(e,"current"));
+	    		$("#tables  tr:not(:first)").empty("");
+	    		findReply(e,w);
+	    	}
+	    });
+	    
+	    $('#next').on('click',function(){
+	    	if($.data(e,"current") === $.data(w,"total")){
+	    		alert("当前为最大页数");
+	    	}else{
+	    		$.data(e,"current",$.data(e,"current")+1);
+	    		console.log($.data(e,"current"));
+	    		$("#tables  tr:not(:first)").empty("");
+	    		findReply(e,w);
+	    	}
+	    });
 	});
 	
-	function findFeed(){
-		$.get("/classtime/feedback/getAll",function(res){
-			$.each(res,function(){
-				var tr = $("<tr/>");
-				$("<td/>").html(this.feedId).appendTo(tr);
-				$("<td/>").html(this.openId).appendTo(tr);
-				$("<td/>").html(this.contact).appendTo(tr);
-				$("<td/>").html(this.content).appendTo(tr);
-				$("<td/>").html(this.createTime).appendTo(tr);
-				$("#tables").append(tr);
-			})
+	function findReply(e,w){
+		$pageNum = $.data(e,"current")-1;
+		$.post("/classtime/reply/getpage",
+				{
+					'pageNum':$pageNum
+				},
+				function(res){
+					console.log(res);
+					
+					$.data(w,"total",res.totalPages);
+					$('#pages').html($.data(e,"current")+"/"+$.data(w,"total"));
+					if(res.content.length != 0){
+						$.each(res.content,function(){
+							var tr = $("<tr/>");
+							$("<td/>").html(this.replyId).appendTo(tr);
+							$("<td/>").html(this.openId).appendTo(tr);
+							$("<td/>").html(this.contact).appendTo(tr);
+							$("<td/>").html(this.content).appendTo(tr);
+							$("<td/>").html(this.checkBoxValue).appendTo(tr);
+							$("<td/>").html(this.stars).appendTo(tr);
+							$("<td/>").html(this.createTime).appendTo(tr);
+							$("#tables").append(tr);
+						});
+					}
+					
 		},"json");
 	}
 </script>
+
+<style type="text/css">
+.priv{
+	width:50%;
+	text-algin:center;
+	margin:0 auto;
+}
+a{
+	display:inline-block;
+}
+p{
+	display:inline-block;
+}
+</style>
 </head>
 <body>
-	<div class="container">
+	<div class="container" style="margin:0 auto">
         <div class="row">
             <div class="col-md-12 text-center" style="padding-top: 70px">
                 <span class="h1" style="color: #46b8da;font-weight: bold">无机课堂反馈信息查看</span>
@@ -41,21 +99,28 @@
         <br/>
         
         <div class="row">
-            <div class="col-md-11 col-xs-11">
-                <table class="table" id="tables">
-                    <thead>
-	                    <tr class="info">
-	                        <th width="50px">序号</th>
-	                        <th >姓名</th>
-	                        <th >联系方式</th>
-	                        <th >反馈内容</th>
-	                        <th width="90px" style="vertical-align: middle !important;text-align: center;">时间</th>
-	                    </tr>
-                    </thead>
-                    <tbody>
-                    	
-                    </tbody>
-                </table>
+            <div class="col-md-11 col-xs-11" style="height:500rpx">
+	            	<table class="table" id="tables">
+	                    <thead>
+		                    <tr class="info">
+		                        <th width="50px">序号</th>
+		                        <th >姓名</th>
+		                        <th >联系方式</th>
+		                        <th >反馈内容</th>
+		                        <th >反馈类型</th>
+		                        <th >反馈评级</th>
+		                        <th width="90px" style="vertical-align: middle !important;text-align: center;">时间</th>
+		                    </tr>
+	                    </thead>
+	                    <tbody>
+	                    	
+	                    </tbody>
+	                </table>
+			</div>
+            <div class='priv'>
+               		<a id="previous" >上一页</a>
+               		<p id="pages"></p>
+                	<a id="next" >下一页</a>
             </div>
         </div>
     </div>

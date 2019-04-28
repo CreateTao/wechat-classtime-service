@@ -7,12 +7,12 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="feed_back")
-public class FeedBackDoMain {
+@Table(name="reply")
+public class ReplyDoMain {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer feedId;
+	private Integer replyId;
 	
 	//反馈人ID
 	private String openId;
@@ -20,18 +20,25 @@ public class FeedBackDoMain {
 	//联系方式
 	private String contact;
 	
+	
 	//反馈内容，表内类型为varchar
 	private String content;
+	
+	//反馈类型
+	private String checkBoxValue;
+	
+	//反馈评级
+	private int stars;
 	
 	//反馈时间
 	private String createTime;
 	
-	public void setFeedId(Integer feedId) {
-		this.feedId = feedId;
+	public void setReplyId(Integer replyId) {
+		this.replyId = replyId;
 	}
 	
-	public Integer getFeedId() {
-		return feedId;
+	public Integer getReplyId() {
+		return replyId;
 	}
 	
 	public void setOpenId(String openId) {
@@ -58,6 +65,22 @@ public class FeedBackDoMain {
 		return content;
 	}
 	
+	public void setStars(int stars) {
+		this.stars = stars;
+	}
+	
+	public int getStars() {
+		return stars;
+	}
+	
+	public void setCheckBoxValue(String checkBoxValue) {
+		this.checkBoxValue = checkBoxValue;
+	}
+	
+	public String getCheckBoxValue() {
+		return checkBoxValue;
+	}
+	
 	public void setCreateTime(String createTime) {
 		this.createTime = createTime;
 	}
@@ -69,7 +92,7 @@ public class FeedBackDoMain {
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub
-		return "FeedBackDoMain [feedId=" + feedId + ", openId=" + openId + ", contact="+
+		return "ReplyDoMain [replyId=" + replyId + ", openId=" + openId + ", contact="+
 				contact+", content="+ content + ", createTime=" + createTime+ "]";
 	}
 }

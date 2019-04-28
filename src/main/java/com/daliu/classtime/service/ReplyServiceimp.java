@@ -8,21 +8,21 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.daliu.classtime.dao.FeedBackDao;
-import com.daliu.classtime.domain.FeedBackDoMain;
-import com.daliu.classtime.service.inservice.InFeedService;
+import com.daliu.classtime.dao.ReplyDao;
+import com.daliu.classtime.domain.ReplyDoMain;
+import com.daliu.classtime.service.inservice.InReplyService;
 
 @Service
-public class FeedBackServiceimp implements InFeedService{
+public class ReplyServiceimp implements InReplyService{
 	
 	@Autowired
-	private FeedBackDao feedBackDao;
+	private ReplyDao replyDao;
 	
-	public Page<FeedBackDoMain> findAll(Pageable pageable){
+	public Page<ReplyDoMain> findAll(Pageable pageable){
 		//查询我的记录
-        Page<FeedBackDoMain> pages=null;
+        Page<ReplyDoMain> pages=null;
         try{
-        	pages=feedBackDao.findAll(pageable);
+        	pages=replyDao.findAll(pageable);
         	return pages;
         }catch(Exception e){
         	System.out.println("TimeServiceimp  findByOpenId---"+e);
@@ -31,10 +31,10 @@ public class FeedBackServiceimp implements InFeedService{
 	}
 	
 	@Transactional
-	public List<FeedBackDoMain> queryAllFeed() {
-		List<FeedBackDoMain> list = null;
+	public List<ReplyDoMain> queryAllReply() {
+		List<ReplyDoMain> list = null;
 		try {
-			list = feedBackDao.findAll();
+			list = replyDao.findAll();
 			return list;
 		} catch (Exception e) {
 			throw e;
@@ -55,9 +55,9 @@ public class FeedBackServiceimp implements InFeedService{
 
 	
 	@Transactional
-	public void saveFeed(FeedBackDoMain feedBackDoMain) {
+	public void saveReply(ReplyDoMain replyDoMain) {
 		try {
-			feedBackDao.saveAndFlush(feedBackDoMain);
+			replyDao.saveAndFlush(replyDoMain);
 		} catch (Exception e) {
 			throw e;
 		}
